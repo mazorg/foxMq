@@ -6,11 +6,12 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);CS1591</NoWarn>
         <TargetFramework>net8.0</TargetFramework>
-        <Version>0.0.1</Version>
+        <Version>0.0.1.1</Version>
         <Title>FoxMq</Title>
         <Authors>Maziar Movahedi</Authors>
         <PackageProjectUrl>https://github.com/mazorg/foxMq</PackageProjectUrl>
         <RepositoryUrl>https://github.com/mazorg/foxMq</RepositoryUrl>
+        <PackageIcon>FoxMQ logo with anthropomorphic fox design.png</PackageIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,6 +24,13 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.2" />
         <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.2" />
         <PackageReference Include="RabbitMQ.Client" Version="7.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="FoxMQ logo with anthropomorphic fox design.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
     </ItemGroup>
 
 </Project>
