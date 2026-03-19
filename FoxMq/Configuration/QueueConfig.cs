@@ -39,6 +39,7 @@ public class QueueConfig
 
     public ExchangeConfig? Exchange { get; set; }
     public string RoutingKey { get; set; } = string.Empty;
+    public bool EnableDeadLettering { get; set; } = false;
 
     /// <summary>
     /// Assembles the queue arguments dictionary. Override in subclasses to add custom arguments.

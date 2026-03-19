@@ -133,8 +133,14 @@ public sealed class RabbitMqConsumerService<TConsumer, TMessage> : BackgroundSer
             _logger.LogError(ex,
                 "Error processing message on queue '{QueueName}' (deliveryTag={DeliveryTag}). Message will be requeued.",
                 _queueConfig.QueueName, deliveryTag);
-
-            await NackMessageAsync(deliveryTag, stoppingToken).ConfigureAwait(false);
+            if (_queueConfig.EnableDeadLettering)
+            {
+                await NackAndDeadLetter(deliveryTag, stoppingToken).ConfigureAwait(false);
+            }
+            else
+            {
+                await NackMessageAsync(deliveryTag, stoppingToken).ConfigureAwait(false);
+            }
         }
     }
 
