@@ -10,13 +10,13 @@ namespace FoxMq.Tests.Consumer;
 
 public class RabbitMqConsumerServiceTests
 {
-    private readonly RabbitMqConnectionHolder _connectionHolder;
-    private readonly IServiceScopeFactory _scopeFactory;
-    private readonly IServiceScope _scope;
-    private readonly IServiceProvider _scopeServiceProvider;
-    private readonly IConnection _connection;
     private readonly IChannel _channel;
+    private readonly IConnection _connection;
+    private readonly RabbitMqConnectionHolder _connectionHolder;
     private readonly QueueConfig _queueConfig;
+    private readonly IServiceScope _scope;
+    private readonly IServiceScopeFactory _scopeFactory;
+    private readonly IServiceProvider _scopeServiceProvider;
 
     public RabbitMqConsumerServiceTests()
     {
@@ -34,7 +34,8 @@ public class RabbitMqConsumerServiceTests
         };
 
         _connection.IsOpen.Returns(true);
-        _connection.CreateChannelAsync(Arg.Any<CreateChannelOptions?>(), Arg.Any<CancellationToken>()).Returns(_channel);
+        _connection.CreateChannelAsync(Arg.Any<CreateChannelOptions?>(), Arg.Any<CancellationToken>())
+            .Returns(_channel);
         _scopeFactory.CreateAsyncScope().Returns(new AsyncServiceScope(_scope));
         _scope.ServiceProvider.Returns(_scopeServiceProvider);
     }
@@ -106,7 +107,8 @@ public class RabbitMqConsumerServiceTests
             exclusive: false,
             autoDelete: false,
             arguments: Arg.Is<IDictionary<string, object?>>(d => d.Count == 0),
-            cancellationToken: Arg.Any<CancellationToken>());
+            cancellationToken: Arg.Any<CancellationToken>(),
+            passive: true);
     }
 
     [Fact]
@@ -145,7 +147,8 @@ public class RabbitMqConsumerServiceTests
             arguments: Arg.Is<IDictionary<string, object?>>(d =>
                 d.ContainsKey("x-queue-type") && (string)d["x-queue-type"]! == "quorum" &&
                 d.ContainsKey("x-delivery-limit") && (int)d["x-delivery-limit"]! == 3),
-            cancellationToken: Arg.Any<CancellationToken>());
+            cancellationToken: Arg.Any<CancellationToken>(),
+            passive: true);
     }
 
     [Fact]

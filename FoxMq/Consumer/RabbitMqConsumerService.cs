@@ -55,12 +55,14 @@ public sealed class RabbitMqConsumerService<TConsumer, TMessage> : BackgroundSer
             cancellationToken: stoppingToken).ConfigureAwait(false);
 
         await _channel.QueueDeclareAsync(
-            queue: _queueConfig.QueueName,
-            durable: _queueConfig.Durable,
-            exclusive: _queueConfig.Exclusive,
-            autoDelete: _queueConfig.AutoDelete,
-            arguments: _queueConfig.BuildArguments(),
-            cancellationToken: stoppingToken).ConfigureAwait(false);
+                queue: _queueConfig.QueueName,
+                durable: _queueConfig.Durable,
+                exclusive: _queueConfig.Exclusive,
+                autoDelete: _queueConfig.AutoDelete,
+                arguments: _queueConfig.BuildArguments(),
+                cancellationToken: stoppingToken,
+                passive: true)
+            .ConfigureAwait(false);
 
         _logger.LogDebug(
             "Queue '{QueueName}' declared (durable={Durable}, exclusive={Exclusive}, autoDelete={AutoDelete}, prefetch={Prefetch})",
